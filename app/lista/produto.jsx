@@ -1,15 +1,19 @@
-import { Text, TextInput, View } from 'react-native'
+import { View } from 'react-native'
+import CaixaEntrada from '../../components/CaixaEntrada'
 
 export default function produto() {
   return (
     <View>
-
-      <Text>Título</Text>
-      <TextInput
-        placeholder='Dica'
-      />
-
-
+      <CaixaEntrada 
+        titulo="Produto" 
+        dica="Digite o produto"
+        funcao= {() => {}} />
+      
+      <CaixaEntrada 
+        titulo="Produto" 
+        dica="Digite o produto"
+        funcao= {() => {}} />
     </View>
   )
 }
+
