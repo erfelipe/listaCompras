@@ -5,7 +5,7 @@ export default function Pilha() {
     <Tabs screenOptions={{ headerShown: false }}>
       <Tabs.Screen name="index" />
       <Tabs.Screen name="lista" />
-      <Tabs.Screen name="+not-found"  />
+
     </Tabs>
   )
 } 

@@ -17,6 +17,7 @@ const estilos = StyleSheet.create({
   caixa: {
     borderColor: 'black',
     borderWidth: 3,
-    backgroundColor: 'lightblue'
+    backgroundColor: 'lightgreen',
+    marginTop: 5
   }
 })

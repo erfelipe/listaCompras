@@ -16,7 +16,8 @@ export default function Pilha() {
                 style={{ width: 50, height: 50 }}
                 size={46}
                 color="green"
-                onPress={() => router.push('/lista/produto')} />
+                onPress={() => router.push('/lista/produto')}
+                 />
             </View>)
         }} />
       <Stack.Screen name="produto" options={{ title: "Produto" }} />
