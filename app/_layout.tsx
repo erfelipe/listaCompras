@@ -1,6 +1,6 @@
 import { Tabs } from "expo-router";
 
-export default function Pilha() {
+export default function TabBar() {
   return (
     <Tabs screenOptions={{ headerShown: false }}>
       <Tabs.Screen name="index" />

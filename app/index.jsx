@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import { Button, Image, View } from 'react-native';
-import { criarBanco, inserirProdutos } from '../components/database/BancoCompras';
+import { Image, View } from 'react-native';
+import { criarBanco } from '../components/database/BancoCompras';
 
 export default function index() {
 
@@ -12,10 +12,10 @@ export default function index() {
 
   return (
     <View>
-      <Button
+      {/* <Button
         title='inserir registro exemplo'
         onPress={() => inserirProdutos("arroz", 123.50, 2).then(()=> console.log("registro inserido"))}
-      />
+      /> */}
       <Image source={require('../assets/images/lista-img.jpg')}
       />
     </View>

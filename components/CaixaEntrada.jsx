@@ -8,6 +8,7 @@ export default function CaixaEntrada(props) {
         style={estilos.caixa}
         placeholder= {props.dica ? props.dica : ''}
         onChangeText={ props.funcao }
+        keyboardType= {props.tipoTeclado}
       />
     </View>
   )

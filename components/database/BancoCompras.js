@@ -21,6 +21,8 @@ export async function inserirProdutos(prod, preco, quant) {
   const banco = await abrirBanco();
   const dados = await banco.runAsync("INSERT INTO compras (id, produto, preco, quantidade) values(?, ?, ?, ?)", [id, prod, preco, quant])
   console.log(dados.lastInsertRowId);
+  console.log(id);
+  return id;
 }
 
 export async function listarProdutos() {
@@ -30,3 +32,9 @@ export async function listarProdutos() {
   // console.log(compras);
 }
 
+export async function excluirProduto(id) {
+    const banco = await abrirBanco();
+    const dados = await banco.runAsync("DELETE FROM compras WHERE id = ? ", [id] )
+    console.log("excluirProduto", dados.changes);
+    return dados.changes;
+}
