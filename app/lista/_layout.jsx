@@ -10,10 +10,10 @@ export default function Pilha() {
         options={{
           title: "Lista de Compras",
           headerRight: () => (
-            <View>
+            <View
+             style={{ width: 50, height: 50 }}>
               <AntDesign
                 name="shoppingcart"
-                style={{ width: 50, height: 50 }}
                 size={46}
                 color="green"
                 onPress={() => router.push('/lista/produto')}

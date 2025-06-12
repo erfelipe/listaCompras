@@ -1,4 +1,4 @@
-import { router } from 'expo-router'
+import { router, useLocalSearchParams } from 'expo-router'
 import { useEffect, useState } from 'react'
 import { Alert, Button, FlatList, Text, TouchableHighlight, View } from 'react-native'
 import { excluirProduto, listarProdutos } from '../../components/database/BancoCompras'
@@ -7,12 +7,12 @@ export default function index() {
 
   const [produtos, setProdutos] = useState([])
 
-  // const {id, produto, preco, quant} =  useLocalSearchParams();
+  const {chave, nome} = useLocalSearchParams()
 
-  // useEffect( () => {
-  //   console.log(produto);
-  //   console.log(preco);
-  // }, [produto])
+  useEffect( () => {
+    console.log("chave", chave);
+    console.log("nome", nome)
+  }, [chave, nome])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -48,9 +48,12 @@ export default function index() {
   function editarItem(item) {
     if (item) {
       console.log("editarItem", item)
-      router.push( { 
+      router.push({ 
         pathname: "/lista/produto",
-        params: {p: item }
+        params: { ident: item.id,
+                  nome: item.produto,
+                  valor: item.preco,
+                  quantidade: item.quantidade }
       })
     }
   }

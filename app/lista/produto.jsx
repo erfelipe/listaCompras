@@ -5,15 +5,23 @@ import CaixaEntrada from '../../components/CaixaEntrada';
 import { inserirProdutos } from '../../components/database/BancoCompras';
 
 export default function produto() {
+  const [id, setId] = useState("");
   const [produto, setProduto] = useState("");
   const [preco, setPreco] = useState("");
   const [quant, setQuant] = useState("");
 
-  const {p} = useLocalSearchParams();
+  const {ident, nome, valor, quantidade} = useLocalSearchParams() ;
 
   useEffect( () => {
-    console.log("chegou?", p)
-  }, [p])
+    console.log("chegou?", ident)
+    console.log("chegou?", nome)
+    console.log("chegou?", valor)
+    console.log("chegou?", quantidade)
+    setId(ident)
+    setProduto(nome)
+    setPreco(valor)
+    setQuant(quantidade)
+  }, [ident, nome, valor, quantidade])
 
   function gravarNovoProduto() {
     if ( (produto) && (preco) && (quant) ) {
@@ -30,6 +38,11 @@ export default function produto() {
     }
   }
 
+  function voltarComParametros() {
+    router.back()
+    router.setParams({"chave": "valor", "nome": produto})
+  }
+
   return (
     <View>
       <Text>{produto}</Text>
@@ -37,21 +50,24 @@ export default function produto() {
         titulo="Produto"
         dica="Digite o produto"
         funcao={setProduto}
-        tipoTeclado='default' />
+        tipoTeclado='default'
+        valor={produto} />
 
       <Text>{preco}</Text>
       <CaixaEntrada
         titulo="Preço"
         dica="Digite o preço"
         funcao={setPreco}
-        tipoTeclado='numeric' />
+        tipoTeclado='numeric'
+        valor={preco} />
 
       <Text>{quant}</Text>
       <CaixaEntrada
         titulo="Quantidade"
         dica="Digite a quantidade"
         funcao={setQuant}
-        tipoTeclado='numeric' />
+        tipoTeclado='numeric'
+        valor={quant} />
 
       <View
         style={{marginTop: 20}}>
@@ -59,6 +75,12 @@ export default function produto() {
           title='Gravar informações'
           onPress={ gravarNovoProduto }
         />
+
+        <Button 
+          title='TESTE back'
+          onPress={ voltarComParametros }
+        />
+
       </View>
     </View>
   )
