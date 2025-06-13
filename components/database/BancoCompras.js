@@ -20,9 +20,15 @@ export async function inserirProdutos(prod, preco, quant) {
   let id = uuid.v4();
   const banco = await abrirBanco();
   const dados = await banco.runAsync("INSERT INTO compras (id, produto, preco, quantidade) values(?, ?, ?, ?)", [id, prod, preco, quant])
-  console.log(dados.lastInsertRowId);
-  console.log(id);
+  // console.log(dados.lastInsertRowId);
+  // console.log(id);
   return id;
+}
+
+export async function atualizarProduto(id, prod, preco, quant) {
+  const banco = await abrirBanco();
+  const dados = await banco.runAsync("UPDATE compras SET  produto = ?, preco = ?, quantidade = ? WHERE id = ? ", [ prod, preco, quant, id])
+  console.log(dados.changes);
 }
 
 export async function listarProdutos() {

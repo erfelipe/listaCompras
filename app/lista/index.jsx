@@ -7,12 +7,16 @@ export default function index() {
 
   const [produtos, setProdutos] = useState([])
 
-  const {chave, nome} = useLocalSearchParams()
+  const { ident, nome, valor, quantidade } = useLocalSearchParams();
 
-  useEffect( () => {
-    console.log("chave", chave);
-    console.log("nome", nome)
-  }, [chave, nome])
+  useEffect(() => {
+    console.log("useEffect do index")
+    console.log("Prod", nome)
+    // setId(ident)
+    // setProduto(nome)
+    // setPreco(valor)
+    // setQuant(quantidade)
+  }, [ident, nome, valor, quantidade])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,9 +40,9 @@ export default function index() {
             let quantApagados = excluirProduto(id);
             console.log("quantapagados:", quantApagados)
             //tirar do array
-              let copia = produtos
-              copia = copia.filter((item) => item.id != id)
-              setProdutos(copia)
+            let copia = produtos
+            copia = copia.filter((item) => item.id != id)
+            setProdutos(copia)
           }
         },
       ]);
@@ -47,13 +51,14 @@ export default function index() {
 
   function editarItem(item) {
     if (item) {
-      console.log("editarItem", item)
-      router.push({ 
+      router.push({
         pathname: "/lista/produto",
-        params: { ident: item.id,
-                  nome: item.produto,
-                  valor: item.preco,
-                  quantidade: item.quantidade }
+        params: {
+          ident: item.id,
+          nome: item.produto,
+          valor: item.preco,
+          quantidade: item.quantidade
+        }
       })
     }
   }
@@ -75,9 +80,9 @@ export default function index() {
                 title='apagar'
                 onPress={() => excluirItem(item.id, item.produto)}>
               </Button>
-              <Button 
+              <Button
                 title='editar'
-                onPress={ () => editarItem(item)}>  
+                onPress={() => editarItem(item)}>
               </Button>
             </View>
           </TouchableHighlight>

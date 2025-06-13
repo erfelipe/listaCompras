@@ -1,8 +1,8 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Alert, Button, Text, View } from 'react-native';
+import { Alert, Button, View } from 'react-native';
 import CaixaEntrada from '../../components/CaixaEntrada';
-import { inserirProdutos } from '../../components/database/BancoCompras';
+import { atualizarProduto, inserirProdutos } from '../../components/database/BancoCompras';
 
 export default function produto() {
   const [id, setId] = useState("");
@@ -10,28 +10,40 @@ export default function produto() {
   const [preco, setPreco] = useState("");
   const [quant, setQuant] = useState("");
 
-  const {ident, nome, valor, quantidade} = useLocalSearchParams() ;
+  const { ident, nome, valor, quantidade } = useLocalSearchParams();
 
-  useEffect( () => {
-    console.log("chegou?", ident)
-    console.log("chegou?", nome)
-    console.log("chegou?", valor)
-    console.log("chegou?", quantidade)
+  useEffect(() => {
     setId(ident)
     setProduto(nome)
     setPreco(valor)
     setQuant(quantidade)
   }, [ident, nome, valor, quantidade])
 
-  function gravarNovoProduto() {
-    if ( (produto) && (preco) && (quant) ) {
+  async function gravarProduto() {
+    if (id) {
+      if ((produto) && (preco) && (quant)) {
+        await atualizarProduto(id, produto, preco, quant)
+        console.log("Produto atualizado")
+        //voltar a tela da listagem
+        //passar o parametro do obj modificado 
+      }
+    }
+    else if ((produto) && (preco) && (quant)) {
       let precoNum = parseFloat(preco)
       let quantNum = parseInt(quant)
-      let id = inserirProdutos(produto, precoNum, quantNum);
-      console.log(id);
-      if (id) {
-        Alert.alert("Produto inserido.");
-        router.push({pathname: "lista/index", params: {"id": id, "produto": produto, "preco": preco, "quant": quant}})
+      let newID = await inserirProdutos(produto, precoNum, quantNum);
+      console.log("inserirProdutos", newID);
+      if (newID) {
+        router.back()
+        router.setParams({
+          editado: JSON.stringify({
+            newID,
+            produto,
+            preco,
+            quant
+          })
+        })
+        // router.push({pathname: "/lista", params: {"id": id, "produto": produto, "preco": preco, "quant": quant}})
       }
     } else {
       Alert.alert("Preencha todos os campos.")
@@ -39,13 +51,27 @@ export default function produto() {
   }
 
   function voltarComParametros() {
+    router.setParams( JSON.stringify( {
+      ident: id,
+      nome: produto,
+      valor: preco,
+      quantidade: quant
+    } ))
     router.back()
-    router.setParams({"chave": "valor", "nome": produto})
+    // router.push({
+    //   pathname: "/lista",
+    //   params: {
+    //     ident: id,
+    //     nome: produto,
+    //     valor: preco,
+    //     quantidade: quant
+    //   }
+    // })
   }
 
   return (
     <View>
-      <Text>{produto}</Text>
+ 
       <CaixaEntrada
         titulo="Produto"
         dica="Digite o produto"
@@ -53,7 +79,7 @@ export default function produto() {
         tipoTeclado='default'
         valor={produto} />
 
-      <Text>{preco}</Text>
+ 
       <CaixaEntrada
         titulo="Preço"
         dica="Digite o preço"
@@ -61,7 +87,7 @@ export default function produto() {
         tipoTeclado='numeric'
         valor={preco} />
 
-      <Text>{quant}</Text>
+
       <CaixaEntrada
         titulo="Quantidade"
         dica="Digite a quantidade"
@@ -70,15 +96,15 @@ export default function produto() {
         valor={quant} />
 
       <View
-        style={{marginTop: 20}}>
+        style={{ marginTop: 20 }}>
         <Button
           title='Gravar informações'
-          onPress={ gravarNovoProduto }
+          onPress={gravarProduto}
         />
 
-        <Button 
+        <Button
           title='TESTE back'
-          onPress={ voltarComParametros }
+          onPress={voltarComParametros}
         />
 
       </View>
